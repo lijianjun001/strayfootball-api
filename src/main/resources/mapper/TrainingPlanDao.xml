@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.strayfootball.api.dao.TrainingPlanDao">
+    <resultMap id="BaseResultMap" type="com.strayfootball.api.entity.TrainingPlan">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="end" jdbcType="BIT" property="end"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, `time`, created, `type`, `end`
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+select
+   id,
+title,
+`time`,
+created,
+`type`  showType,
+ (case  `type`   when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type,
+`end`
+ from training_plan
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from training_plan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.strayfootball.api.entity.TrainingPlan">
+    insert into training_plan (id, title, `time`, 
+      created, `type`, `end`)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
+      #{created,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{end,jdbcType=BIT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.strayfootball.api.entity.TrainingPlan">
+        insert into training_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="end != null">
+                `end`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="end != null">
+                #{end,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.strayfootball.api.entity.TrainingPlan">
+        update training_plan
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="end != null">
+                `end` = #{end,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.strayfootball.api.entity.TrainingPlan">
+    update training_plan
+    set title = #{title,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=VARCHAR},
+      `end` = #{end,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+    <select id="findList" resultMap="BaseResultMap">
+select
+id,
+title,
+`time`,
+created,
+ (case  `type`   when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type,
+`end`
+    from training_plan
+  </select>
+
+
+    <select id="findListKey" resultMap="BaseResultMap">
+select
+id,
+title
+    from training_plan
+    where   `end` = false
+  </select>
+
+    <select id="findListByDynamic" resultMap="BaseResultMap" parameterType="com.strayfootball.api.entity.TrainingPlan">
+        select
+        id,
+        title,
+        `time`,
+        created,
+        (case  `type`   when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type,
+        `end`
+        from training_plan
+        where 1=1
+        <if test="title != null and title!=''">
+            and  title   like concat('%',#{title,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="type != null and type!=''">
+            and  type  = #{type,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+</mapper>

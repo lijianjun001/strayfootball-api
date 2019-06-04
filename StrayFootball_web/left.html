@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>左侧导航menu</title>
+    <link href="css/css.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="js/sdmenu.js"></script>
+    <script type="text/javascript">
+        // <![CDATA[
+        var myMenu;
+        window.onload = function () {
+            myMenu = new SDMenu("my_menu");
+            myMenu.init();
+        };
+	// ]]>
+    </script>
+    <style type=text/css>
+        html {
+            SCROLLBAR-FACE-COLOR: #538ec6;
+            SCROLLBAR-HIGHLIGHT-COLOR: #dce5f0;
+            SCROLLBAR-SHADOW-COLOR: #2c6daa;
+            SCROLLBAR-3DLIGHT-COLOR: #dce5f0;
+            SCROLLBAR-ARROW-COLOR: #2c6daa;
+            SCROLLBAR-TRACK-COLOR: #dce5f0;
+            SCROLLBAR-DARKSHADOW-COLOR: #dce5f0;
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: url(images/main/leftbg.jpg) left top repeat-y #f2f0f5;
+            width: 194px;
+        }
+    </style>
+</head>
+<body onselectstart="return false;" ondragstart="return false;" oncontextmenu="return false;">
+    <div id="left-top">
+        <div><img src="images/main/member.gif" width="44" height="44" /></div>
+        <span>用户：<hyc id="account">admin</hyc><br />角色：<hyc id="roule">超级管理员</hyc></span>
+    </div>
+    <div style="float: left" id="my_menu" class="sdmenu">
+        <div class="collapsed" id="basc">
+            <span>基本信息</span>
+            <a href="/info/info.html" target="mainFrame" onFocus="this.blur()">个人信息</a>
+        </div>
+
+        <!--管理员-->
+        <div class="admin" style="display:none">
+            <span>用户信息管理</span>
+            <a href="/player/list.html" target="mainFrame" onFocus="this.blur()">用户列表</a>
+            <a href="/player/tlist.html" target="mainFrame" onFocus="this.blur()">教练员列表</a>
+        </div>
+        <div class="admin" style="display:none">
+            <span>球队信息管理</span>
+            <a href="/team/list.html" target="mainFrame" onFocus="this.blur()">球队列表</a>
+        </div>
+        <div class="admin" style="display:none">
+            <span>比赛赛事管理</span>
+            <a href="/games/list.html" target="mainFrame" onFocus="this.blur()">赛事列表</a>
+
+        </div>
+        <!--教练员-->
+        <div class="teacher" style="display:none">
+            <span>训练计划信息管理</span>
+            <a href="/plan/list.html" target="mainFrame" onFocus="this.blur()">训练计划列表</a>
+        </div>
+        <div class="teacher" style="display:none">
+            <span>训练成绩管理</span>
+            <a href="/training/list.html" target="mainFrame" onFocus="this.blur()">训练成绩列表</a>
+        </div>
+        <div class="teacher" style="display:none">
+            <span>球队信息</span>
+            <a href="/team/yklist.html" target="mainFrame" onFocus="this.blur()">球队列表</a>
+        </div>
+        <div class="teacher" style="display:none">
+            <span>球员体测健康信息</span>
+            <a href="/physical/ylist.html" target="mainFrame" onFocus="this.blur()">球员体测列表</a>
+        </div>
+        <div class="teacher" style="display:none">
+            <span>赛事信息</span>
+            <a href="/games/yklist.html" target="mainFrame" onFocus="this.blur()">赛事列表</a>
+        </div>
+        <!--队医-->
+        <div class="doctor" style="display:none">
+            <span>球员体测管理</span>
+            <a href="/physical/list.html" target="mainFrame" onFocus="this.blur()">球员体测列表</a>
+        </div>
+        <!--球员-->
+        <div class="player" style="display:none">
+            <span>训练计划管理</span>
+            <a href="/plan/ylist.html" target="mainFrame" onFocus="this.blur()">训练计划列表</a>
+        </div>
+        <div class="player" style="display:none">
+            <span>训练成绩查询</span>
+            <a href="/training/ylist.html" target="mainFrame" onFocus="this.blur()">训练成绩列表</a>
+        </div>
+        <div class="player" style="display:none">
+            <span>我的体测数据</span>
+            <a href="/info/physicalInfo.html" target="mainFrame" onFocus="this.blur()">训练成绩列表</a>
+        </div>
+        <!--游客-->
+        <div class="tourist" style="display:none">
+            <span>球员信息</span>
+            <a href="/player/yklist.html" target="mainFrame" onFocus="this.blur()">球员信息列表</a>
+        </div>
+        <div class="tourist" style="display:none">
+            <span>球队信息</span>
+            <a href="/team/yklist.html" target="mainFrame" onFocus="this.blur()">球队列表</a>
+        </div>
+        <div class="tourist" style="display:none">
+            <span>赛事信息</span>
+            <a href="/games/yklist.html" target="mainFrame" onFocus="this.blur()">赛事列表</a>
+        </div>
+
+    </div>
+</body>
+</html>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>

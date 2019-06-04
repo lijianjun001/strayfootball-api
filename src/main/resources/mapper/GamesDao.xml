@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.strayfootball.api.dao.GamesDao">
+    <resultMap id="BaseResultMap" type="com.strayfootball.api.entity.Games">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="party_a" jdbcType="INTEGER" property="partyA"/>
+        <result column="party_b" jdbcType="INTEGER" property="partyB"/>
+        <result column="winner" jdbcType="INTEGER" property="winner"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+        <result column="score" jdbcType="VARCHAR" property="score"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, party_a, party_b, winner, `state`, created, score, `time`
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+  games.`id`,
+	games.`title`,
+	games.`party_a`,
+	games.`party_b`,
+	games.`winner`,
+	games.`state`,
+	games.`created`,
+	games.`score`,
+	games. `time`,
+	a.name a,
+	b.name b,
+	winer.name win
+    from games
+    left  join  team a ON a.id=games.party_a
+    left  join  team b ON b.id=games.party_b
+  left join team winer ON winer.id=games.winner
+    where games.id = #{id,jdbcType=INTEGER}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from games
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.strayfootball.api.entity.Games">
+    insert into games (id, title, party_a,
+      party_b, winner, `state`,
+      created, score, `time`
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{partyA,jdbcType=INTEGER},
+      #{partyB,jdbcType=INTEGER}, #{winner,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR},
+      #{created,jdbcType=TIMESTAMP}, #{score,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.strayfootball.api.entity.Games">
+        insert into games
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="partyA != null">
+                party_a,
+            </if>
+            <if test="partyB != null">
+                party_b,
+            </if>
+            <if test="winner != null">
+                winner,
+            </if>
+            <if test="state != null">
+                `state`,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="partyA != null">
+                #{partyA,jdbcType=INTEGER},
+            </if>
+            <if test="partyB != null">
+                #{partyB,jdbcType=INTEGER},
+            </if>
+            <if test="winner != null">
+                #{winner,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.strayfootball.api.entity.Games">
+        update games
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="partyA != null">
+                party_a = #{partyA,jdbcType=INTEGER},
+            </if>
+            <if test="partyB != null">
+                party_b = #{partyB,jdbcType=INTEGER},
+            </if>
+            <if test="winner != null">
+                winner = #{winner,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=VARCHAR},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.strayfootball.api.entity.Games">
+    update games
+    set title = #{title,jdbcType=VARCHAR},
+      party_a = #{partyA,jdbcType=INTEGER},
+      party_b = #{partyB,jdbcType=INTEGER},
+      winner = #{winner,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="findList" resultMap="BaseResultMap">
+    select
+   games.`id`,
+	games.`title`,
+	games.`party_a`,
+	games.`party_b`,
+	games.`winner`,
+	games.`state`,
+	games.`created`,
+	games.`score`,
+	games. `time`,
+	a.name a,
+	b.name b
+    from games
+    left  join  team a ON a.id=games.party_a
+    left  join  team b ON b.id=games.party_b
+  </select>
+
+
+    <select id="findListByDynamic" resultMap="BaseResultMap" parameterType="com.strayfootball.api.entity.Games">
+        select
+        games.`id`,
+        games.`title`,
+        games.`party_a`,
+        games.`party_b`,
+        games.`winner`,
+        games.`state`,
+        games.`created`,
+        games.`score`,
+        games. `time`,
+        a.name a,
+        b.name b,
+        winer.name win
+        from games
+        left join team a ON a.id=games.party_a
+        left join team b ON b.id=games.party_b
+        left join team winer ON winer.id=games.winner
+        where 1=1
+        <if test="winner !=null and winner>0 ">
+            and games.winner = #{winner,jdbcType=INTEGER}
+        </if>
+        <if test="title != null and title!=''">
+            and  games.`title`   like concat('%',#{title,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="state != null and state!=''">
+            and   games.`state`  = #{state,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+</mapper>

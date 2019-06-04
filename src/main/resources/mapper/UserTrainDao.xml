@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.strayfootball.api.dao.UserTrainDao">
+    <resultMap id="BaseResultMap" type="com.strayfootball.api.entity.UserTrain">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="training_plan_id" jdbcType="INTEGER" property="trainingPlanId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="marks" jdbcType="DOUBLE" property="marks"/>
+        <result column="created" jdbcType="TIMESTAMP" property="created"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, training_plan_id, user_id, marks, created
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+       select
+  user_train.`id`,
+  user_train.`training_plan_id`,
+  user_train.`user_id`,
+  user_train.`marks`,
+  user_train.`created`,
+  user.name name,
+  training_plan.title title,
+  (case training_plan.type  when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type
+    from user_train
+    left  join user on user.id=user_train.user_id
+    left  join training_plan on training_plan.id=user_train.training_plan_id
+        where user_train.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_train
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.strayfootball.api.entity.UserTrain">
+    insert into user_train (id, training_plan_id, user_id,
+      marks, created)
+    values (#{id,jdbcType=INTEGER}, #{trainingPlanId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{marks,jdbcType=DOUBLE}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.strayfootball.api.entity.UserTrain">
+        insert into user_train
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="trainingPlanId != null">
+                training_plan_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="marks != null">
+                marks,
+            </if>
+            <if test="created != null">
+                created,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="trainingPlanId != null">
+                #{trainingPlanId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="marks != null">
+                #{marks,jdbcType=DOUBLE},
+            </if>
+            <if test="created != null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.strayfootball.api.entity.UserTrain">
+        update user_train
+        <set>
+            <if test="trainingPlanId != null">
+                training_plan_id = #{trainingPlanId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="marks != null">
+                marks = #{marks,jdbcType=DOUBLE},
+            </if>
+            <if test="created != null">
+                created = #{created,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.strayfootball.api.entity.UserTrain">
+    update user_train
+    set training_plan_id = #{trainingPlanId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      marks = #{marks,jdbcType=DOUBLE},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="findList" resultType="com.strayfootball.api.entity.UserTrain">
+    select
+  user_train.`id`,
+  user_train.`training_plan_id`,
+  user_train.`user_id`,
+  user_train.`marks`,
+  user_train.`created`,
+  user.name name,
+  training_plan.title title,
+   (case training_plan.type  when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type
+    from user_train
+    left  join user on user.id=user_train.user_id
+    left  join training_plan on training_plan.id=user_train.training_plan_id
+  </select>
+    <select id="findListByTainId" parameterType="java.lang.Integer" resultType="com.strayfootball.api.entity.UserTrain">
+    select
+  user_train.`id`,
+  user_train.`training_plan_id`,
+  user_train.`user_id`,
+  user_train.`marks`,
+  user_train.`created`,
+  user.name name,
+  training_plan.title title,
+  (case training_plan.type  when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type
+    from user_train
+    left  join user on user.id=user_train.user_id
+    left  join training_plan on training_plan.id=user_train.training_plan_id
+    where user_train.training_plan_id = #{trainingPlanId,jdbcType=INTEGER}
+  </select>
+    <select id="selectUserByDynamic" resultMap="BaseResultMap"  parameterType="com.strayfootball.api.entity.UserTrain">
+        select
+        user_train.`id`,
+        user_train.`training_plan_id`,
+        user_train.`user_id`,
+        user_train.`marks`,
+        user_train.`created`,
+        user.name name,
+        training_plan.title title,
+        (case training_plan.type  when "00" then "课训练" when "01" then "周训练" ELSE "月训练" END) AS type
+        from user_train
+        left  join user on user.id=user_train.user_id
+        left  join training_plan on training_plan.id=user_train.training_plan_id
+         where 1=1
+        <if test="marks !=null and marks>0 ">and user_train.marks >=#{marks,jdbcType=DOUBLE}</if>
+        <if test="trainingPlanId != null and trainingPlanId>0">
+            and user_train.training_plan_id =#{trainingPlanId,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null and userId>0">
+            and user_train.user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        </select>
+
+
+    <select id="findByPlanIdAndUserId"   parameterType="com.strayfootball.api.entity.UserTrain" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_train
+        where  training_plan_id = #{trainingPlanId,jdbcType=INTEGER}
+       and   user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

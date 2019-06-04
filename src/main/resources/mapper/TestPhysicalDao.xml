@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.strayfootball.api.dao.TestPhysicalDao">
+  <resultMap id="BaseResultMap" type="com.strayfootball.api.entity.TestPhysical">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="blood_pressure" jdbcType="VARCHAR" property="bloodPressure" />
+    <result column="vital_capacity" jdbcType="VARCHAR" property="vitalCapacity" />
+    <result column="endurance" jdbcType="VARCHAR" property="endurance" />
+    <result column="body_fat" jdbcType="VARCHAR" property="bodyFat" />
+    <result column="meters_dash_time" jdbcType="VARCHAR" property="metersDashTime" />
+    <result column="arm_exhibition" jdbcType="VARCHAR" property="armExhibition" />
+    <result column="body_condition" jdbcType="VARCHAR" property="bodyCondition" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, height, weight, blood_pressure, vital_capacity, endurance, body_fat,
+    meters_dash_time, arm_exhibition, body_condition
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+select
+test_physical.id, height, weight,
+test_physical.blood_pressure,
+test_physical.vital_capacity,
+test_physical.endurance,
+test_physical.body_fat,
+test_physical.meters_dash_time,
+test_physical.arm_exhibition,
+test_physical.user_id,
+test_physical.body_condition,
+user.name name
+    from test_physical
+    left  join  user on  user.id=test_physical.user_id
+    where test_physical.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from test_physical
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.strayfootball.api.entity.TestPhysical">
+    insert into test_physical (id, user_id, height,
+      weight, blood_pressure, vital_capacity,
+      endurance, body_fat, meters_dash_time,
+      arm_exhibition, body_condition)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{height,jdbcType=VARCHAR},
+      #{weight,jdbcType=VARCHAR}, #{bloodPressure,jdbcType=VARCHAR}, #{vitalCapacity,jdbcType=VARCHAR},
+      #{endurance,jdbcType=VARCHAR}, #{bodyFat,jdbcType=VARCHAR}, #{metersDashTime,jdbcType=VARCHAR},
+      #{armExhibition,jdbcType=VARCHAR}, #{bodyCondition,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.strayfootball.api.entity.TestPhysical">
+    insert into test_physical
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="bloodPressure != null">
+        blood_pressure,
+      </if>
+      <if test="vitalCapacity != null">
+        vital_capacity,
+      </if>
+      <if test="endurance != null">
+        endurance,
+      </if>
+      <if test="bodyFat != null">
+        body_fat,
+      </if>
+      <if test="metersDashTime != null">
+        meters_dash_time,
+      </if>
+      <if test="armExhibition != null">
+        arm_exhibition,
+      </if>
+      <if test="bodyCondition != null">
+        body_condition,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodPressure != null">
+        #{bloodPressure,jdbcType=VARCHAR},
+      </if>
+      <if test="vitalCapacity != null">
+        #{vitalCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="endurance != null">
+        #{endurance,jdbcType=VARCHAR},
+      </if>
+      <if test="bodyFat != null">
+        #{bodyFat,jdbcType=VARCHAR},
+      </if>
+      <if test="metersDashTime != null">
+        #{metersDashTime,jdbcType=VARCHAR},
+      </if>
+      <if test="armExhibition != null">
+        #{armExhibition,jdbcType=VARCHAR},
+      </if>
+      <if test="bodyCondition != null">
+        #{bodyCondition,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.strayfootball.api.entity.TestPhysical">
+    update test_physical
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodPressure != null">
+        blood_pressure = #{bloodPressure,jdbcType=VARCHAR},
+      </if>
+      <if test="vitalCapacity != null">
+        vital_capacity = #{vitalCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="endurance != null">
+        endurance = #{endurance,jdbcType=VARCHAR},
+      </if>
+      <if test="bodyFat != null">
+        body_fat = #{bodyFat,jdbcType=VARCHAR},
+      </if>
+      <if test="metersDashTime != null">
+        meters_dash_time = #{metersDashTime,jdbcType=VARCHAR},
+      </if>
+      <if test="armExhibition != null">
+        arm_exhibition = #{armExhibition,jdbcType=VARCHAR},
+      </if>
+      <if test="bodyCondition != null">
+        body_condition = #{bodyCondition,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.strayfootball.api.entity.TestPhysical">
+    update test_physical
+    set user_id = #{userId,jdbcType=INTEGER},
+      height = #{height,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      blood_pressure = #{bloodPressure,jdbcType=VARCHAR},
+      vital_capacity = #{vitalCapacity,jdbcType=VARCHAR},
+      endurance = #{endurance,jdbcType=VARCHAR},
+      body_fat = #{bodyFat,jdbcType=VARCHAR},
+      meters_dash_time = #{metersDashTime,jdbcType=VARCHAR},
+      arm_exhibition = #{armExhibition,jdbcType=VARCHAR},
+      body_condition = #{bodyCondition,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="findList"  resultMap="BaseResultMap">
+select
+test_physical.id, height, weight,
+test_physical.blood_pressure,
+test_physical.vital_capacity,
+test_physical.endurance,
+test_physical.body_fat,
+test_physical.meters_dash_time,
+test_physical.arm_exhibition,
+test_physical.user_id,
+test_physical.body_condition,
+user.name name
+    from test_physical
+    left  join  user on  user.id=test_physical.user_id
+
+  </select>
+
+  <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+select
+    <include refid="Base_Column_List" />
+    from test_physical
+    where user_id = #{userId,jdbcType=INTEGER} limit 1
+  </select>
+</mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.strayfootball.api.dao.UserDao">
+  <resultMap id="BaseResultMap" type="com.strayfootball.api.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="roles_id" jdbcType="INTEGER" property="rolesId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="team_id" jdbcType="INTEGER" property="teamId" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, roles_id, `password`, phone, team_id, account
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.strayfootball.api.entity.User">
+    insert into user (id, `name`, roles_id,
+      `password`, phone, team_id,
+      account)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{rolesId,jdbcType=INTEGER},
+      #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{teamId,jdbcType=INTEGER},
+      #{account,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.strayfootball.api.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="rolesId != null">
+        roles_id,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="teamId != null">
+        team_id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="rolesId != null">
+        #{rolesId,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.strayfootball.api.entity.User">
+    update user
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="rolesId != null">
+        roles_id = #{rolesId,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null">
+        team_id = #{teamId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.strayfootball.api.entity.User">
+    update user
+    set `name` = #{name,jdbcType=VARCHAR},
+      roles_id = #{rolesId,jdbcType=INTEGER},
+      `password` = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      team_id = #{teamId,jdbcType=INTEGER},
+      account = #{account,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findOneById" parameterType="java.lang.Integer"  resultType="com.strayfootball.api.entity.User">
+    select
+     user.`id`,
+  user.`name`,
+  user.`roles_id`,
+  user.`password`,
+  user.`phone`,
+  user.account,
+  user.`team_id`,roles.name  rolesName,team.name  teamName
+    from user
+        left join roles on user.roles_id=roles.id
+        left join team on user.team_id=team.id
+    where user.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findListUser"  resultMap="BaseResultMap">
+    select
+     user.`id`,
+  user.`name`,
+  user.`roles_id`,
+  user.`password`,
+  user.`phone`,
+  user.account,
+  user.`team_id`,roles.name  rolesName,team.name  teamName
+    from user
+        left join roles on user.roles_id=roles.id
+        inner join team on user.team_id=team.id
+  </select>
+
+  <select id="findListUserByTeamId"   parameterType="java.lang.Integer"  resultType="com.strayfootball.api.entity.User">
+    select
+     user.`id`,
+  user.`name`,
+  user.`roles_id`,
+  user.`password`,
+  user.`phone`,
+    user.account,
+  user.`team_id`,roles.name  rolesName,team.name  teamName
+    from user
+        left join roles on user.roles_id=roles.id
+        left join team on user.team_id=team.id
+      where user.team_id = #{teamId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findOneByAccount" parameterType="java.lang.String"  resultType="com.strayfootball.api.entity.User">
+    select
+     user.`id`,
+  user.`name`,
+  user.`roles_id`,
+  user.`password`,
+    user.account,
+  user.`phone`,  user.account,
+  user.`team_id`,roles.name  rolesName
+    from user
+        left join roles on user.roles_id=roles.id
+            where   user.account =  #{account,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="findListKey"  resultMap="BaseResultMap">
+      select
+     user.`id`,
+  user.`name`
+      from user
+        left join roles on user.roles_id=roles.id
+        where  roles.name="球员"
+  </select>
+
+
+  <select id="findListByDynamic" resultMap="BaseResultMap" parameterType="com.strayfootball.api.entity.User">
+    select
+    user.`id`,
+    user.`name`,
+    user.`roles_id`,
+    user.`password`,
+    user.`phone`,
+    user.account,
+    user.`team_id`,roles.name  rolesName,team.name  teamName
+    from user
+    left join roles on user.roles_id=roles.id
+    left join team on user.team_id=team.id
+    where 1=1
+    <if test="name !=null and name!='' ">
+      and  user.name   like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="phone != null and phone!=''">
+      and  user.phone   like concat('%',#{phone,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="account != null and account!=''">
+      and   user.account  like concat('%',#{account,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="teamId != null and teamId>0">
+      and   user.team_id  = #{teamId,jdbcType=INTEGER}
+    </if>
+
+  </select>
+
+
+  <select id="findListTeacherByDynamic" resultMap="BaseResultMap" parameterType="com.strayfootball.api.entity.User">
+    select
+    user.`id`,
+    user.`name`,
+    user.`roles_id`,
+    user.`password`,
+    user.`phone`,
+    user.account,
+    user.`team_id`,roles.name  rolesName,team.name  teamName
+    from user
+    left join roles on user.roles_id=roles.id
+    left join team on user.team_id=team.id
+    where 1=1 and roles.name="教练员"
+    <if test="name !=null and name!='' ">
+      and  user.name   like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="phone != null and phone!=''">
+      and  user.phone   like concat('%',#{phone,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="account != null and account!=''">
+      and   user.account  like concat('%',#{account,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="teamId != null and teamId>0">
+      and   user.team_id  = #{teamId,jdbcType=INTEGER}
+    </if>
+
+  </select>
+  <select id="findListPlayerByDynamic" resultMap="BaseResultMap" parameterType="com.strayfootball.api.entity.User">
+    select
+    user.`id`,
+    user.`name`,
+    user.`roles_id`,
+    user.`password`,
+    user.`phone`,
+    user.account,
+    user.`team_id`,roles.name  rolesName,team.name  teamName
+    from user
+    left join roles on user.roles_id=roles.id
+    left join team on user.team_id=team.id
+    where 1=1 and roles.name="球员"
+    <if test="name !=null and name!='' ">
+      and  user.name   like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="phone != null and phone!=''">
+      and  user.phone   like concat('%',#{phone,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="account != null and account!=''">
+      and   user.account  like concat('%',#{account,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="teamId != null and teamId>0">
+      and   user.team_id  = #{teamId,jdbcType=INTEGER}
+    </if>
+
+  </select>
+
+</mapper>

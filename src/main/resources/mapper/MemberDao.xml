@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.strayfootball.api.dao.MemberDao">
+  <resultMap id="BaseResultMap" type="com.strayfootball.api.entity.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="level1_member_id" jdbcType="INTEGER" property="level1MemberId" />
+    <result column="level2_member_id" jdbcType="INTEGER" property="level2MemberId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, phone, `name`, department_id, deleted, created, level1_member_id, level2_member_id, job
+  </sql>
+  <select id="findById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from member
+  where id = #{id,jdbcType=INTEGER}
+</select>
+
+  <select id="findByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from member
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.strayfootball.api.entity.Member">
+    insert into member (id, phone, `name`, 
+      department_id, deleted,
+      created)
+    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{departmentId,jdbcType=INTEGER}, #{deleted,jdbcType=BIT},
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.strayfootball.api.entity.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreLevel != null">
+        #{scoreLevel,jdbcType=INTEGER},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByIdSelective" parameterType="com.strayfootball.api.entity.Member">
+    update member
+    <set>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateById" parameterType="com.strayfootball.api.entity.Member">
+    update member
+    set phone = #{phone,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findByDepartmentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from member
+    where department_id = #{departmentId,jdbcType=INTEGER}
+  </select>
+</mapper>
